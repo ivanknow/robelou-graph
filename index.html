@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html ng-app="links">
+<head>
+<meta charset="ISO-8859-1">
+<title>Robelou Graph</title>
+
+</head>
+<body>
+<svg id="svg" width="800" height="600" style="overflow:auto;">
+	 <line x1="40" y1="40" x2="120" y2="120" style="stroke:rgb(0,0,0);stroke-width:10" />
+	<circle cx="40" cy="40" r="40" fill="red"/>
+	<text x="10" y="40" fill="black" >Programa</text>
+	<circle cx="120" cy="120" r="40" fill="red"/>
+</svg>
+
+<script>
+(function() {
+var robelouGraph = function(nodes,svgId){
+	this.svgId = svgId||"";
+	this.nodes = nodes||[];
+	this.htmlReturned = "";
+	var that = this;
+	
+	buildSvg = function(){
+		currentX = 100;
+		currentY = 40;
+		
+		for(var i=0;i<that.nodes.length;i++){
+			if(that.nodes[i].parent){
+			
+			
+			
+			}
+			
+			that.htmlReturned += "<circle cx=\""+currentX+"\" cy=\""+currentY+"\" r=\"40\" fill=\"red\"/>";
+			that.htmlReturned += "<text x=\""+(currentX-30)+"\" y=\""+currentY+"\" fill=\"black\"  style=\"font-family: Arial;\" >"+that.nodes[i].name+"</text>";
+			currentY+=85;
+		}
+		
+		document.getElementById(that.svgId).innerHTML = that.htmlReturned;
+	}
+	showGraph = function(){
+	buildSvg();
+	console.log(that.nodes);	
+	}
+	
+	getNodes = function(){
+	return that.nodes || [];	
+	}
+	
+	setNodes = function(nodes){
+	that.nodes = nodes||[];	
+	}
+	
+	getSVGId = function(){
+	return that.svgId || "";	
+	}
+	
+	setSVGId = function(svgId){
+	that.svgId = svgId||"";	
+	}
+	
+	
+	appendNodes = function(node){
+	that.nodes.push(node);
+	}
+	
+	
+
+	return {
+		showGraph:showGraph,
+		setNodes:setNodes,
+		getNodes:getNodes,
+		appendNodes:appendNodes,
+		getSVGId:getSVGId,
+		setSVGId:setSVGId,
+	}
+} 
+var graphJson = [
+   { key: "1",name: "Programa"},
+   { key: "2", parent: "1", name: "Declaracao Variavel"},
+   { key: "3", parent: "1", name: "Declaracao Variavel"},
+   { key: "4", parent: "1", name: "Declaracao Variavel"},
+   { key: "5", parent: "4", name: "Alonzo"},
+   { key: "6", parent: "4", name: "Munkustrap"}
+   ];
+item = robelouGraph(graphJson,"svg");
+item.showGraph();
+})();
+</script>
+</body>
+</html>
