@@ -19,9 +19,49 @@ var robelouGraph = function(nodes,svgId){
 	this.svgId = svgId||"";
 	this.nodes = nodes||[];
 	this.htmlReturned = "";
+	this.tree = [];
+	this.memo = [];
 	var that = this;
 	
-	buildSvg = function(){
+	preProcessorTree = function(){
+		for(var i=0;i<that.nodes.length;i++){
+			if(!that.nodes[i].parent){
+			this.tree[0] = this.tree[0]||[];
+			
+				that.nodes[i].floor = 0;
+				that.tree[0].push(that.nodes[i]);
+				
+			}else{
+			var parent = {};
+				for(var j=0;i<that.nodes.length;j++){
+					if(that.nodes[j].key===that.nodes[i].parent){
+						parent = that.nodes[j];
+						
+						break;
+					}
+				}
+				this.tree[parent.floor+1] = this.tree[parent.floor+1]||[];
+				that.nodes[i].floor = parent.floor+1;
+				that.tree[parent.floor+1].push(that.nodes[i]);
+			}
+		}
+	
+	}
+	annotatePositions = function(){
+	
+	var spaceY = 600/that.floor.length;
+	
+		for(var i=0;i<that.floor.length;i++){
+			var size = that.floor[i].length;
+			var spaceX = 800/size;
+			
+			for(var j=0;j<that.floor[i].length;j++){
+				//TODO
+			}
+			
+		}
+	}
+	buildSvgNoFloor = function(){
 		currentX = 100;
 		currentY = 40;
 		
@@ -40,6 +80,7 @@ var robelouGraph = function(nodes,svgId){
 		document.getElementById(that.svgId).innerHTML = that.htmlReturned;
 	}
 	showGraph = function(){
+	preProcessorTree();
 	buildSvg();
 	console.log(that.nodes);	
 	}
